@@ -1,4 +1,7 @@
-﻿using AuthService.Application.DTO;
+
+using AuthService.Application.DTO;
+using AuthService.Application.Features.Commands.Register;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuthService.API.Controllers
@@ -7,12 +10,20 @@ namespace AuthService.API.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
+        private readonly IMediator _mediator;
+
+        public AuthController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
 
         [HttpPost("register")]
-        public IActionResult Register(RegisterDto request)
+        public async Task<IActionResult> Register([FromBody] RegisterDto request)
         {
-            return Ok();
+            var command = new RegisterUserCommand(request);
+            var result = await _mediator.Send(command);
+            return Ok(result);
         }
-       
     }
 }
+
