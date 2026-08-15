@@ -13,25 +13,6 @@ namespace AuthService.API.Controllers
         {
             return Ok();
         }
-        //public IActionResult Register(RegisterDto user)
-        //{
-        //    if (user == null)
-        //    {
-        //        BadRequest("User is Empty");
-        //    }
-
-        //    if (user.Email != null)
-        //    {
-        //        UserDto user = _user.FindUserWithEmailAsync(user.Email);
-        //        if (user)
-        //        {
-        //            BadRequest("This email is alreday register")
-        //        }
-        //    }
-
-        //    UserDto user = _user.RegisterUser(user);
-
-        //    return Ok(user);
-        //}
+       
     }
 }

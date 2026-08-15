@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AuthService.Infrastructure.IRepositiory
+namespace AuthService.Application.IRepositiory
 {
-    internal class IUserRepository
+    public interface IUserRepository
     {
+
     }
 }
