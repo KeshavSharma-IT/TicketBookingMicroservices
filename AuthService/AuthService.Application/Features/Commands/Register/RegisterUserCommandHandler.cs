@@ -1,3 +1,4 @@
+using AutoMapper;
 using AuthService.Application.DTO;
 using AuthService.Application.Interface;
 using AuthService.Application.IRepositiory;
@@ -14,11 +15,13 @@ namespace AuthService.Application.Features.Commands.Register
     {
         private readonly IUserRepository _userRepository;
         private readonly IPasswordHasher _passwordHasher;
+        private readonly IMapper _mapper;
 
-        public RegisterUserCommandHandler(IUserRepository userRepository, IPasswordHasher passwordHasher)
+        public RegisterUserCommandHandler(IUserRepository userRepository, IPasswordHasher passwordHasher, IMapper mapper)
         {
-            _passwordHasher = passwordHasher;
             _userRepository = userRepository;
+            _passwordHasher = passwordHasher;
+            _mapper = mapper;
         }
 
         public async Task<ResponseDto> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
@@ -49,13 +52,8 @@ namespace AuthService.Application.Features.Commands.Register
             await _userRepository.AddAsync(user);
             await _userRepository.SaveChangesAsync();
 
-            // Return response DTO
-            return new ResponseDto
-            {
-                Id = user.Id,
-                Name = user.Name,
-                Email = user.Email
-            };
+            // Return mapped response DTO
+            return _mapper.Map<ResponseDto>(user);
         }
     }
 }

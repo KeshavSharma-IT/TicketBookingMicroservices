@@ -1,10 +1,13 @@
+using AuthService.Application.Common.Behaviors;
 using AuthService.Application.Interface;
 using AuthService.Application.IRepositiory;
 using AuthService.Infrastructure.Data;
 using AuthService.Infrastructure.Repositiory;
 using AuthService.Infrastructure.Security;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -20,9 +23,19 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
-// Program.cs me MediatR ko Assembly scan karke register karne ke liye:
+
+// Register FluentValidation Validators
+builder.Services.AddValidatorsFromAssembly(typeof(AuthService.Application.DTO.RegisterDto).Assembly);
+
+// Register AutoMapper Profiles
+builder.Services.AddAutoMapper(typeof(AuthService.Application.DTO.RegisterDto).Assembly);
+
+// Register MediatR with Validation Pipeline Behavior
 builder.Services.AddMediatR(cfg =>
-    cfg.RegisterServicesFromAssembly(typeof(AuthService.Application.DTO.RegisterDto).Assembly));
+{
+    cfg.RegisterServicesFromAssembly(typeof(AuthService.Application.DTO.RegisterDto).Assembly);
+    cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
+});
 
 
 var app = builder.Build();
