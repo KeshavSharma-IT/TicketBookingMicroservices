@@ -1,5 +1,6 @@
 
 using AuthService.Application.DTO;
+using AuthService.Application.Features.Commands.Login;
 using AuthService.Application.Features.Commands.Register;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -24,6 +25,19 @@ namespace AuthService.API.Controllers
             var result = await _mediator.Send(command);
             return Ok(result);
         }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginDto login)
+        {
+            var command = new LoginUserCommand 
+            { 
+                Email = login.Email, 
+                Password = login.Password 
+            };
+            var result = await _mediator.Send(command);
+            return Ok(result);
+        }
     }
 }
+
 
