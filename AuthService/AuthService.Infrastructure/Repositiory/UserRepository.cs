@@ -13,8 +13,6 @@ namespace AuthService.Infrastructure.Repositiory
         {
             _context=context;
         }
-
-
         public async Task<User?> GetByEmailAsync(string email) 
         {
             if (string.IsNullOrWhiteSpace(email))
