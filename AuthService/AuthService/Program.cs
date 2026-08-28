@@ -33,7 +33,7 @@ builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 builder.Services.AddValidatorsFromAssembly(typeof(AuthService.Application.DTO.RegisterDto).Assembly);
 
 // Register AutoMapper Profiles
-builder.Services.AddAutoMapper(typeof(AuthService.Application.DTO.RegisterDto).Assembly);
+builder.Services.AddAutoMapper(cfg => cfg.AddMaps(typeof(AuthService.Application.DTO.RegisterDto).Assembly));
 
 // Register MediatR with Validation Pipeline Behavior
 builder.Services.AddMediatR(cfg =>

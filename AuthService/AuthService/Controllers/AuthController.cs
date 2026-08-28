@@ -1,7 +1,8 @@
-
 using AuthService.Application.DTO;
 using AuthService.Application.Features.Commands.Login;
+using AuthService.Application.Features.Commands.RefreshToken;
 using AuthService.Application.Features.Commands.Register;
+using AuthService.Application.Features.Commands.Logout;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -37,7 +38,23 @@ namespace AuthService.API.Controllers
             var result = await _mediator.Send(command);
             return Ok(result);
         }
+
+        [HttpPost("refresh")]
+        public async Task<IActionResult> Refresh([FromBody] RefreshTokenCommand command)
+        {
+            var result = await _mediator.Send(command);
+            return Ok(result);
+        }
+
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout([FromBody] LogoutCommand command)
+        {
+            var result = await _mediator.Send(command);
+            if (!result)
+            {
+                return BadRequest("Invalid token or user already logged out.");
+            }
+            return Ok("Logged out successfully.");
+        }
     }
 }
-
-

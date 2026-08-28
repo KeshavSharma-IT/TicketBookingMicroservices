@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace AuthService.Infrastructure.Security
@@ -17,6 +18,13 @@ namespace AuthService.Infrastructure.Security
         {
             _configuration = configuration;
         }
+
+        public string GenerateRefreshToken()
+        {
+            var bytes = RandomNumberGenerator.GetBytes(64);
+            return Convert.ToBase64String(bytes);
+        }
+
         public string GenerateToken(User user)
         {
             var secretKey = _configuration["JwtSettings:Secret"];
@@ -33,8 +41,7 @@ namespace AuthService.Infrastructure.Security
                 new Claim(JwtRegisteredClaimNames.Sub,user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Email,user.Email),
                 new Claim(JwtRegisteredClaimNames.Name,user.Name)
-            };  
-
+            };
 
             var Token = new JwtSecurityToken(
                 issuer: Issuer,

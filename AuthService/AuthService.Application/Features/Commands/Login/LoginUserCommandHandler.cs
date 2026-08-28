@@ -38,8 +38,19 @@ namespace AuthService.Application.Features.Commands.Login
                 bool passmatch=  _passwordHasher.VerifyPassword(command.Password, user.PasswordHash);
                 if (passmatch)
                 {
+                    var token = _jwtTokenGenerator.GenerateToken(user);
+                    var refreshToken = _jwtTokenGenerator.GenerateRefreshToken();
+
+                    user.RefreshToken= refreshToken;
+                    user.RefreshTokenExpiryTime=DateTime.UtcNow.AddDays(1);
+
+                    await _userRepository.SaveChangesAsync();
+
+
                     var response= _mapper.Map<ResponseDto>(user);
-                    response.Token = _jwtTokenGenerator.GenerateToken(user);
+                    response.Token = token;
+                    response.RefreshToken = refreshToken;   
+
                     return response;
                 }
                
