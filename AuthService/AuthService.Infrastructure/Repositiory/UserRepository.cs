@@ -1,4 +1,4 @@
-﻿using AuthService.Application.IRepositiory;
+using AuthService.Application.IRepositiory;
 using AuthService.Domain.Entities;
 using AuthService.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +27,14 @@ namespace AuthService.Infrastructure.Repositiory
                 throw new ArgumentNullException(nameof(user));
 
             await _context.Users.AddAsync(user);
+        }
+
+        public async Task<User?> GetByRefreshTokenAsync(string refreshToken)
+        {
+            if (string.IsNullOrWhiteSpace(refreshToken))
+                throw new ArgumentException("Refresh token cannot be empty.", nameof(refreshToken));
+
+            return await _context.Users.FirstOrDefaultAsync(u => u.RefreshToken == refreshToken);
         }
 
         public async Task SaveChangesAsync()
