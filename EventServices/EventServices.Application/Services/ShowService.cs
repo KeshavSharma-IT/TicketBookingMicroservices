@@ -88,7 +88,7 @@ namespace EventServices.Application.Services
             return _mapper.Map<List<ShowResponseDto>>(shows);
         }
 
-        public async Task<ShowResponseDto> GetShowById(Guid id)
+        public async Task<ShowResponseDto?> GetShowByIdAsync(Guid id)
         {
             if(id!= Guid.Empty)
             {

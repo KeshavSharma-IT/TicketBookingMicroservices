@@ -38,7 +38,6 @@ namespace EventServices.Application.Services
             }
 
             var screen = _mapper.Map<Screen>(createScreen);
-            screen.Id = Guid.NewGuid();
             screen.VenueId = venueId;
 
             venue.Screens.Add(screen);

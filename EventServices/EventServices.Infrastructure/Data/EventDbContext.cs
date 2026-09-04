@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using EventServices.Domain.Entities;
 
 
@@ -47,7 +47,15 @@ namespace EventServices.Infrastructure.Data
                 .Property(s => s.Price)
                 .HasColumnType("decimal(18,2)"); // Configures 18 total digits, with 2 after the decimal
 
+            // Composite Unique Index for Venue (Name + City + Address)
+            modelBuilder.Entity<Venue>()
+                .HasIndex(v => new { v.Name, v.City, v.Address })
+                .IsUnique();
 
+            // Composite Unique Index for Screen (VenueId + Name)
+            modelBuilder.Entity<Screen>()
+                .HasIndex(s => new { s.VenueId, s.Name })
+                .IsUnique();
         }
     }
 }

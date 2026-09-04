@@ -1,4 +1,4 @@
-﻿using EventServices.Application.DTO.Venue;
+using EventServices.Application.DTO.Venue;
 
 namespace EventServices.Application.IServices
 {
@@ -10,7 +10,7 @@ namespace EventServices.Application.IServices
         Task<List<VenueResponseDto>> GetVenueAsync();
         Task<List<VenueResponseDto>> GetVenueByCityAsync(string city);
 
-        Task<VenueResponseDto> GetVenueByIdAsync(Guid id);
+        Task<VenueResponseDto?> GetVenueByIdAsync(Guid id);
         Task<bool> DeactivateVenueAsync(Guid Id);
     }
 }

@@ -1,4 +1,4 @@
-﻿using EventServices.Application.DTO.Show;
+using EventServices.Application.DTO.Show;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,7 +12,7 @@ namespace EventServices.Application.IServices
 
         Task<List<ShowResponseDto>> GetShowsByEventAndCityAsync(Guid id, string city);
 
-        Task<ShowResponseDto> GetShowById(Guid id);
+        Task<ShowResponseDto?> GetShowByIdAsync(Guid id);
         Task<bool> DeactivateShowAsync(Guid id);
     }
 }
