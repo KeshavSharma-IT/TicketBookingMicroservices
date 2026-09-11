@@ -1,6 +1,14 @@
-@EventServices_HostAddress = http://localhost:5157
+@EventServices_HostAddress = https://localhost:7002
 
-GET {{EventServices_HostAddress}}/weatherforecast/
+### 1. Get All Events (Public)
+GET {{EventServices_HostAddress}}/api/Events
 Accept: application/json
 
-###
+### 2. Get All Venues (Public)
+GET {{EventServices_HostAddress}}/api/Venues
+Accept: application/json
+
+### 3. Get All Shows (Public)
+GET {{EventServices_HostAddress}}/api/Shows
+Accept: application/json
+

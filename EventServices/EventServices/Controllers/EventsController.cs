@@ -1,7 +1,9 @@
 using EventServices.Application.DTO.Event;
 using EventServices.Application.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace EventServices.API.Controllers
 {
@@ -34,9 +36,18 @@ namespace EventServices.API.Controllers
             return Ok(eventDto);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<EventResponseDto>> CreateEvent([FromBody] CreateEventDto createEventDto)
         {
+            // just for testing purpose
+            var isAuth = User.Identity?.IsAuthenticated;                     // true
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;  // Guid
+            var email = User.FindFirst(ClaimTypes.Email)?.Value;           // admin@ticketbooking.com
+            var role = User.FindFirst(ClaimTypes.Role)?.Value;            // Admin
+            var isAdmin = User.IsInRole("Admin");
+
+
             if (createEventDto == null)
             {
                 return BadRequest("Event data cannot be null.");
@@ -47,6 +58,7 @@ namespace EventServices.API.Controllers
             return CreatedAtAction(nameof(GetEventById), new { id = createdEvent.Id }, createdEvent);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeactivateEvent(Guid id)
         {
