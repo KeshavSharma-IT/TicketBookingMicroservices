@@ -427,3 +427,8 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# Local Mentorship & Agent Documentation
+AGENTS.md
+.agents/
+INTERVIEW_AND_ARCHITECTURE_GUIDE.md
