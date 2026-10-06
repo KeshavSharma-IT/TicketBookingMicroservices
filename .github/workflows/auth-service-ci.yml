@@ -2,12 +2,12 @@ name: AuthService CI
 
 on:
   push:
-    branches: [ "main", "master", "keshavOffice" ]
+    branches: [ "main", "master", "keshavoffice" ]
     paths:
       - "AuthService/**"
       - ".github/workflows/auth-service-ci.yml"
   pull_request:
-    branches: [ "main", "master", "keshavOffice" ]
+    branches: [ "main", "master", "keshavoffice" ]
     paths:
       - "AuthService/**"
       - ".github/workflows/auth-service-ci.yml"
