@@ -1,5 +1,6 @@
 using EventServices.Application.DTO.Venue;
 using EventServices.Application.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,6 +17,7 @@ namespace EventServices.API.Controllers
             _venueService = venueService;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<VenueResponseDto>> CreateVenueAsync([FromBody] CreateVenueDto createVenueDto)
         {
@@ -28,6 +30,7 @@ namespace EventServices.API.Controllers
             return CreatedAtAction(nameof(GetVenueById), new { id = venue.Id }, venue);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("{venueId:guid}/screens")]
         public async Task<ActionResult<ScreenResponseDto>> CreateScreenAsync(Guid venueId, [FromBody] CreateScreenDto createScreenDto)
         {
@@ -80,6 +83,7 @@ namespace EventServices.API.Controllers
             return Ok(venues);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeactivateVenueAsync(Guid id)
         {

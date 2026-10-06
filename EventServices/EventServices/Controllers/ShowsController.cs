@@ -1,5 +1,6 @@
 using EventServices.Application.DTO.Show;
 using EventServices.Application.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,6 +16,7 @@ namespace EventServices.API.Controllers
             _showService = showService;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<ShowResponseDto>> CreateShowAsync([FromBody] CreateShowDto createShow)
         {
@@ -67,6 +69,7 @@ namespace EventServices.API.Controllers
             return Ok(res);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteAsync(Guid id)
         {

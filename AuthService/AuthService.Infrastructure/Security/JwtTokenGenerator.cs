@@ -40,7 +40,8 @@ namespace AuthService.Infrastructure.Security
             {
                 new Claim(JwtRegisteredClaimNames.Sub,user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Email,user.Email),
-                new Claim(JwtRegisteredClaimNames.Name,user.Name)
+                new Claim(JwtRegisteredClaimNames.Name,user.Name),
+                new Claim(ClaimTypes.Role,user.Role.ToString())
             };
 
             var Token = new JwtSecurityToken(
