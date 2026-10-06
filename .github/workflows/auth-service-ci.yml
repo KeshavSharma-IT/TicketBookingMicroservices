@@ -1,18 +1,25 @@
-name: AuthService CI
+name: AuthService CI/CD
 
 on:
   push:
-    branches: [ "main", "master", "keshavoffice" ]
+    branches: [ "main", "master", "Dev", "dev", "feature/**" ]
     paths:
       - "AuthService/**"
       - ".github/workflows/auth-service-ci.yml"
   pull_request:
-    branches: [ "main", "master", "keshavoffice" ]
+    branches: [ "main", "master", "Dev", "dev" ]
     paths:
       - "AuthService/**"
       - ".github/workflows/auth-service-ci.yml"
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
+  # ==========================================
+  # CI: Continuous Integration
+  # ==========================================
   build-and-test:
     name: Build & Test AuthService
     runs-on: ubuntu-latest
@@ -35,3 +42,44 @@ jobs:
 
       - name: Verify Docker Build
         run: docker build -t auth-service:ci -f AuthService/Dockerfile AuthService/
+
+  # ==========================================
+  # CD: Continuous Delivery (Publish to GHCR)
+  # ==========================================
+  publish-docker:
+    name: Publish Docker Image to GHCR
+    needs: build-and-test
+    if: (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') && github.event_name == 'push'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository_owner }}/ticketbooking-auth-service
+          tags: |
+            type=raw,value=latest
+            type=sha,format=short
+
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./AuthService
+          file: ./AuthService/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
