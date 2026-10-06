@@ -2,12 +2,12 @@ name: EventServices CI
 
 on:
   push:
-    branches: [ "main", "master" ]
+    branches: [ "main", "master","keshavOffice" ]
     paths:
       - "EventServices/**"
       - ".github/workflows/event-services-ci.yml"
   pull_request:
-    branches: [ "main", "master" ]
+    branches: [ "main", "master" ,"keshavOffice"]
     paths:
       - "EventServices/**"
       - ".github/workflows/event-services-ci.yml"
