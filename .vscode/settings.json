@@ -1,0 +1,19 @@
+{
+    "editor.inlineSuggest.enabled": false,
+    "editor.suggest.preview": false,
+    "editor.quickSuggestions": {
+        "comments": "off",
+        "strings": "off",
+        "other": "off"
+    },
+    "editor.acceptSuggestionOnEnter": "off",
+    "editor.tabCompletion": "off",
+    "antigravity.inlineCompletion.enabled": false,
+    "antigravity.autocomplete.enabled": false,
+    "gemini.inlineCompletions.enabled": false,
+    "gemini.autocomplete.enable": false,
+    "github.copilot.enable": {
+        "*": false
+    },
+    "github.copilot.inlineSuggest.enable": false
+}
